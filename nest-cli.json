@@ -7,7 +7,26 @@
     "typeCheck": true,
     "builder": {
       "type": "swc",
-      "options": { "extensions": [".ts", ".tsx", ".js", ".jsx"] }
+      "options": {
+        "extensions": [
+          ".ts",
+          ".tsx",
+          ".js",
+          ".jsx"
+        ]
+      }
+    },
+    "webpack": true
+  },
+  "projects": {
+    "core": {
+      "type": "library",
+      "root": "libs/core",
+      "entryFile": "index",
+      "sourceRoot": "libs/core/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/core/tsconfig.lib.json"
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "declaration": true,
+    "declaration": false,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -17,10 +17,13 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
+    "baseUrl": ".",
     "paths": {
       "@app/core": ["./libs/core/src"],
       "@app/core/*": ["./libs/core/src/*"],
-      "@config/*": ["./config/*"]
+      "@config/*": ["./config/*"],
+      "drizzle-orm": ["./node_modules/drizzle-orm"],
+      "drizzle-orm/*": ["./node_modules/drizzle-orm/*"]
     }
   },
   "include": ["src/**/*", "libs/**/*", "config/**/*", "database/**/*"]

@@ -9,7 +9,6 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -19,8 +18,10 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "paths": {
-      "@app/core": ["libs/core/src"],
-      "@app/core/*": ["libs/core/src/*"]
+      "@app/core": ["./libs/core/src"],
+      "@app/core/*": ["./libs/core/src/*"],
+      "@config/*": ["./config/*"]
     }
-  }
+  },
+  "include": ["src/**/*", "libs/**/*", "config/**/*", "database/**/*"]
 }

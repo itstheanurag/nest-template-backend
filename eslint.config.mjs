@@ -2,6 +2,7 @@ import tseslint from 'typescript-eslint';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 
 export default tseslint.config({
+  files: ['**/*.ts'],
   ignores: ['.eslint.config.mjs'], // previously ignorePatterns
   languageOptions: {
     parser: tseslint.parser,
@@ -25,7 +26,6 @@ export default tseslint.config({
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/array-type': 'error',
     '@typescript-eslint/await-thenable': 'error',
-    '@typescript-eslint/ban-types': 'error',
     '@typescript-eslint/naming-convention': [
       'error',
       {

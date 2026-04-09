@@ -1,0 +1,36 @@
+{
+  "EMAIL_REQUIRED": "Email is required",
+  "EMAIL_INVALID": "Please provide a valid email address",
+  "PASSWORD_REQUIRED": "Password is required",
+  "PASSWORD_MIN_LENGTH": "Password must be at least 8 characters long",
+  "PASSWORD_MAX_LENGTH": "Password must not exceed 32 characters",
+  "PASSWORD_WEAK": "Password must include uppercase, lowercase, number, and special character",
+
+  "USERNAME_REQUIRED": "Username is required",
+  "USERNAME_MIN_LENGTH": "Username must be at least 3 characters long",
+  "USERNAME_MAX_LENGTH": "Username must not exceed 20 characters",
+  "USERNAME_INVALID": "Username can only contain letters, numbers, and underscores",
+
+  "PHONE_REQUIRED": "Phone number is required",
+  "PHONE_INVALID": "Please provide a valid phone number",
+
+  "FIELD_REQUIRED": "This field is required",
+  "INVALID_TYPE": "Invalid data type provided",
+  "INVALID_VALUE": "Invalid value provided",
+
+  "ARRAY_EMPTY": "Array must not be empty",
+  "ARRAY_MIN_SIZE": "Array must contain at least {min} items",
+  "ARRAY_MAX_SIZE": "Array must contain at most {max} items",
+
+  "STRING_MIN_LENGTH": "Must be at least {min} characters long",
+  "STRING_MAX_LENGTH": "Must be at most {max} characters long",
+
+  "NUMBER_MIN": "Must be greater than or equal to {min}",
+  "NUMBER_MAX": "Must be less than or equal to {max}",
+
+  "BOOLEAN_INVALID": "Invalid boolean value",
+
+  "DATE_INVALID": "Invalid date format",
+  "DATE_PAST": "Date must be in the past",
+  "DATE_FUTURE": "Date must be in the future"
+}

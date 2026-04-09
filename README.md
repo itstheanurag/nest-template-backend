@@ -1,98 +1,115 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS Enterprise Template
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A high-performance, production-ready NestJS template designed for scalability, speed, and modern developer experience. This project serves as a robust foundation for building enterprise-grade backends with essential features pre-configured.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Overview
 
-## Description
+This template is built on top of **NestJS 11** and utilizes **Fastify** for the highest possible performance. It comes integrated with **SWC** for blazing-fast compilation and a modular architecture that separates core infrastructure from application logic.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Why use this template?
+- **Speed**: SWC compiler + Fastify platform = minimal overhead.
+- **Reliability**: Graceful shutdown services and robust queue management.
+- **Batteries-Included**: Pre-built modules for Emails, Notifications, and Queues.
+- **Enterprise-Ready**: Strict linting, commit standards, and Docker-first approach.
 
-## Project setup
+---
 
-```bash
-$ pnpm install
+## ✨ Features
+
+### 🛠 Core Infrastructure
+- **Fastify Platform**: Optimized for low overhead and high throughput.
+- **SWC Integration**: Replaces `ts-node` and `tsc` for near-instant builds and execution.
+- **Graceful Shutdown**: Custom `ShutdownService` to handle process signals (SIGTERM, SIGINT) and ensure clean exits.
+- **Modular Core**: A dedicated `libs/core` for shared filters, decorators, and HTTP response builders.
+
+### 📬 Messaging & Background Tasks
+- **BullMQ Integration**: High-performance Redis-based queues for asynchronous processing.
+- **Email Module**: Multi-provider support (SMTP included) with dedicated background processors.
+- **Notification Module**: Pluggable architecture supporting **FCM (Firebase Cloud Messaging)** and **OneSignal**.
+- **Worker Mode**: Scalable worker logic for processing heavy background tasks outside the main API thread.
+
+### 🌍 Globalization & UX
+- **Internationalization (i18n)**: Built-in support for multi-language responses and error messages.
+- **Standardized Responses**: Unified `DataResponseBuilder` for consistent API output.
+- **Advanced Metadata**: Dynamic metadata generation for SEO and social sharing.
+
+### 🧹 Quality & DX
+- **Husky & Commitlint**: Enforces conventional commit messages.
+- **Lint-Staged**: Automatically runs ESLint and Prettier on changed files.
+- **ESLint 9**: Modern linting configuration for TypeScript.
+
+---
+
+## 🏗 Project Structure
+
+```text
+/
+├── libs/
+│   └── core/           # Shared infrastructure logic
+├── src/
+│   ├── common/         # Global DTOs and utilities
+│   ├── emails/         # Email providers and queue processors
+│   ├── notifications/  # Notification providers (FCM, OneSignal)
+│   ├── queues/         # Global BullMQ configuration
+│   ├── i18n/           # Translation files (JSON)
+│   └── app.module.ts   # Core application orchestration
+├── Dockerfile          # Optimized production build
+└── docker-compose.yml  # Local development infrastructure (Redis, etc.)
 ```
 
-## Compile and run the project
+---
+
+## 🚦 Getting Started
+
+### Prerequisites
+- Node.js (v20+)
+- pnpm (Recommended)
+- Docker & Docker Compose
+
+### Local Development
+
+1. **Clone and Install**
+   ```bash
+   pnpm install
+   ```
+
+2. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   ```
+
+3. **Start Infrastructure**
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **Run in Watch Mode**
+   ```bash
+   pnpm run start:dev
+   ```
+
+---
+
+## 🐳 Docker Deployment
+
+The project includes a production-ready `Dockerfile` and a `docker-compose.yml` for orchestration.
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+# Build and run with Docker
+docker-compose up --build
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ pnpm run test
+## 🛠 Use Cases
 
-# e2e tests
-$ pnpm run test:e2e
+1. **SaaS Backends**: Rapidly spin up scalable APIs with built-in notification and billing hooks.
+2. **Notification Engines**: A dedicated service to handle massive volumes of Push and Email alerts.
+3. **Microservices**: Use as a scaffold for high-performance microservices in a distributed architecture.
+4. **Global Apps**: Products requiring robust i18n and localized error handling from day one.
 
-# test coverage
-$ pnpm run test:cov
-```
+---
 
-## Deployment
+## 🛡 License
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This template is [MIT licensed](LICENSE).

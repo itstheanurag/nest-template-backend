@@ -1,0 +1,1 @@
+export const EMAILS_MODULE_OPTIONS = Symbol('EMAILS_MODULE_OPTIONS');

@@ -2,7 +2,7 @@
 
 A high-performance, production-ready NestJS template designed for scalability, speed, and modern developer experience. This project serves as a robust foundation for building enterprise-grade backends with essential features pre-configured.
 
-## 🚀 Overview
+## Overview
 
 This template is built on top of **NestJS 11** and utilizes **Fastify** for the highest possible performance. It comes integrated with **SWC** for blazing-fast compilation and a modular architecture that separates core infrastructure from application logic.
 
@@ -14,33 +14,33 @@ This template is built on top of **NestJS 11** and utilizes **Fastify** for the 
 
 ---
 
-## ✨ Features
+## Features
 
-### 🛠 Core Infrastructure
+### Core Infrastructure
 - **Fastify Platform**: Optimized for low overhead and high throughput.
 - **SWC Integration**: Replaces `ts-node` and `tsc` for near-instant builds and execution.
 - **Graceful Shutdown**: Custom `ShutdownService` to handle process signals (SIGTERM, SIGINT) and ensure clean exits.
 - **Modular Core**: A dedicated `libs/core` for shared filters, decorators, and HTTP response builders.
 
-### 📬 Messaging & Background Tasks
+### Messaging & Background Tasks
 - **BullMQ Integration**: High-performance Redis-based queues for asynchronous processing.
 - **Email Module**: Multi-provider support (SMTP included) with dedicated background processors.
 - **Notification Module**: Pluggable architecture supporting **FCM (Firebase Cloud Messaging)** and **OneSignal**.
 - **Worker Mode**: Scalable worker logic for processing heavy background tasks outside the main API thread.
 
-### 🌍 Globalization & UX
+### Globalization & UX
 - **Internationalization (i18n)**: Built-in support for multi-language responses and error messages.
 - **Standardized Responses**: Unified `DataResponseBuilder` for consistent API output.
 - **Advanced Metadata**: Dynamic metadata generation for SEO and social sharing.
 
-### 🧹 Quality & DX
+### Quality & DX
 - **Husky & Commitlint**: Enforces conventional commit messages.
 - **Lint-Staged**: Automatically runs ESLint and Prettier on changed files.
 - **ESLint 9**: Modern linting configuration for TypeScript.
 
 ---
 
-## 🏗 Project Structure
+## Project Structure
 
 ```text
 /
@@ -59,7 +59,7 @@ This template is built on top of **NestJS 11** and utilizes **Fastify** for the 
 
 ---
 
-## 🚦 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js (v20+)
@@ -90,7 +90,7 @@ This template is built on top of **NestJS 11** and utilizes **Fastify** for the 
 
 ---
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 The project includes a production-ready `Dockerfile` and a `docker-compose.yml` for orchestration.
 
@@ -101,7 +101,7 @@ docker-compose up --build
 
 ---
 
-## 🛠 Use Cases
+## Use Cases
 
 1. **SaaS Backends**: Rapidly spin up scalable APIs with built-in notification and billing hooks.
 2. **Notification Engines**: A dedicated service to handle massive volumes of Push and Email alerts.
@@ -110,6 +110,6 @@ docker-compose up --build
 
 ---
 
-## 🛡 License
+## License
 
 This template is [MIT licensed](LICENSE).

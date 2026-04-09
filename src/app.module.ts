@@ -2,9 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CoreModule } from '@app/core';
 import config from '../config';
+import { AuthModule } from './auth';
+import { DatabaseModule } from './database';
 import { EmailsModule } from './emails';
 import { NotificationProviderName, NotificationsModule } from './notifications';
 import { QueuesModule } from './queues';
+import { UsersModule } from './user';
 
 @Module({
   imports: [
@@ -12,6 +15,7 @@ import { QueuesModule } from './queues';
       isGlobal: true,
       load: config,
     }),
+    DatabaseModule,
     QueuesModule,
     CoreModule,
     NotificationsModule.registerAsync({
@@ -66,6 +70,8 @@ import { QueuesModule } from './queues';
         },
       }),
     }),
+    AuthModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

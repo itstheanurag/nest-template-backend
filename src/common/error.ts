@@ -35,3 +35,10 @@ export const throwForbiddenException = (messageKey: string) => {
     .setStatusCode(HttpStatus.FORBIDDEN)
     .getException();
 };
+
+export const throwUnauthorizedException = (messageKey: string) => {
+  throw new BaseException(messageKey)
+    .setName(HTTP_ERROR_MESSAGES[HttpStatus.UNAUTHORIZED])
+    .setStatusCode(HttpStatus.UNAUTHORIZED)
+    .getException();
+};

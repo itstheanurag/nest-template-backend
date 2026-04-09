@@ -17,13 +17,13 @@ import {
 } from '@nestjs/platform-fastify';
 import { ServerOptions } from './server.interface';
 import { ValidationPipe } from '@app/core/pipes';
+import { ShutdownService } from '../../services/shutdown.service';
 
 type ModuleType = Type<any> | DynamicModule | ForwardReference;
 
 export class ServerClass {
   private static appLogger = new Logger('HTTP');
   private static app: NestFastifyApplication | null = null;
-  private static isShuttingDown = false;
 
   static async make(
     module: ModuleType,
@@ -46,52 +46,22 @@ export class ServerClass {
     this.setupValidation(app);
     this.setupRequestLogging(app, options);
 
-    const port = options?.port || config.get<number>('PORT', 3000);
+    const port =
+      options?.port ||
+      config.get<number>('app.port') ||
+      config.get<number>('APP_PORT') ||
+      config.get<number>('PORT', 3000);
     await app.listen(port, '0.0.0.0');
     this.appLogger.log(`Server is running on: ${await app.getUrl()}`);
 
     this.app = app;
     app.enableShutdownHooks();
-    this.setupGracefulShutdown(options);
+
+    // Initialize graceful shutdown via injectable service
+    const shutdownService = app.get(ShutdownService);
+    shutdownService.subscribeToShutdown(app, options);
 
     return app;
-  }
-
-  /**
-   * Gracefully shutdown the server
-   * @param timeoutMs - Maximum time to wait for in-flight requests (default: 10000ms)
-   */
-  static async shutdown(timeoutMs: number = 10000): Promise<void> {
-    if (this.isShuttingDown) {
-      this.appLogger.warn('Shutdown already in progress...');
-      return;
-    }
-
-    if (!this.app) {
-      this.appLogger.warn('No active server instance to shutdown');
-      return;
-    }
-
-    this.isShuttingDown = true;
-    this.appLogger.log('Initiating graceful shutdown...');
-
-    const shutdownPromise = this.app.close();
-    const timeoutPromise = new Promise<void>((_, reject) =>
-      setTimeout(
-        () => reject(new Error('Shutdown timeout exceeded')),
-        timeoutMs,
-      ),
-    );
-
-    try {
-      await Promise.race([shutdownPromise, timeoutPromise]);
-      this.appLogger.log('Server shut down gracefully');
-    } catch (error) {
-      this.appLogger.error(`Shutdown error: ${(error as Error).message}`);
-    } finally {
-      this.app = null;
-      this.isShuttingDown = false;
-    }
   }
 
   /**
@@ -99,18 +69,6 @@ export class ServerClass {
    */
   static getApp(): NestFastifyApplication | null {
     return this.app;
-  }
-
-  private static setupGracefulShutdown(options?: ServerOptions) {
-    const shutdownTimeout = options?.shutdownTimeoutMs ?? 10000;
-
-    const handleSignal = async (signal: string) => {
-      this.appLogger.log(`Received ${signal}, starting graceful shutdown...`);
-      await this.shutdown(shutdownTimeout);
-    };
-
-    process.on('SIGTERM', () => handleSignal('SIGTERM'));
-    process.on('SIGINT', () => handleSignal('SIGINT'));
   }
 
   private static setupVersioning(
@@ -132,7 +90,6 @@ export class ServerClass {
     options?: ServerOptions,
   ) {
     if (!options?.enableApiDocumentation) return;
-
     const appName =
       process.env.npm_package_name ??
       config.get<string>('APP_NAME', 'NestJS App');
@@ -142,10 +99,7 @@ export class ServerClass {
 
     const documentBuilder = new DocumentBuilder()
       .setTitle(appName)
-      .setDescription(
-        `${appName} is a gym exercise tracker app.
-        \n\n[Download OpenAPI JSON](api/docs/api.json) | [Download OpenAPI YAML](api/docs/api.yaml)`,
-      )
+      .setDescription(`${appName} is a gym exercise tracker app.`)
       .setVersion(appVersion)
       .addBearerAuth()
       .build();
@@ -167,8 +121,6 @@ export class ServerClass {
 
     SwaggerModule.setup('api/docs', app, swaggerDocument, {
       swaggerOptions: { persistAuthorization: true },
-      jsonDocumentUrl: 'api/docs/api.json',
-      yamlDocumentUrl: 'api/docs/api.yaml',
     });
   }
 
@@ -177,6 +129,7 @@ export class ServerClass {
       .get<string>('CORS_ALLOWED_ORIGINS', '')
       .split(',')
       .filter(Boolean);
+
     const allowedMethods = config
       .get<string>('CORS_ALLOWED_METHODS', '')
       .split(',')

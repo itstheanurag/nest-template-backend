@@ -1,5 +1,6 @@
 export * from './core.module';
 export * from './core.service';
+export * from './services/shutdown.service';
 export * from './http';
 export * from './pipes';
 export * from './decorators';

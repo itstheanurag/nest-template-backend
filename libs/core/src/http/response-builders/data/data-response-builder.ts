@@ -69,20 +69,8 @@ export class DataResponseBuilder {
     return this.dataResponseSkeleton();
   }
 
-  // sendWithMeta(data: any = null, message: string = null, meta = {}): any {
-  //   this.setMetadata(meta);
-  //   return this.send(data, message);
-  // }
-
-  // successResponse(data: any = null, message: string = null): any {
-  //   this.setMessage(message);
-  //   this.setData(data);
-  //   return this.dataResponseSkeleton();
-  // }
-
-  // createdResponse(data: any = null, message: string = null): any {
-  //   this.setData(data);
-  //   this.setMessage(message);
-  //   return this.dataResponseSkeleton();
-  // }
+  sendWithMeta(data: any = null, message: string = null, meta = {}): any {
+    this.setMetadata(meta);
+    return this.send(data, message);
+  }
 }

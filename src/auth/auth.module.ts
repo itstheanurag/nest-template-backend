@@ -6,7 +6,7 @@ import { DATABASE } from '../database';
 import * as schema from '../database/schema';
 import { AuthController } from './auth.controller';
 import { AUTH_INSTANCE } from './auth.constants';
-import { AuthService } from './auth.service';
+import { AuthService } from './service';
 
 @Module({
   imports: [ConfigModule],

@@ -7,7 +7,9 @@ import { DatabaseModule } from './database';
 import { EmailsModule } from './emails';
 import { NotificationProviderName, NotificationsModule } from './notifications';
 import { QueuesModule } from './queues';
-import { UsersModule } from './user';
+import { UserModule } from './user';
+import { I18nModule, QueryResolver, HeaderResolver } from 'nestjs-i18n';
+import path from 'path';
 
 @Module({
   imports: [
@@ -18,6 +20,14 @@ import { UsersModule } from './user';
     DatabaseModule,
     QueuesModule,
     CoreModule,
+    I18nModule.forRoot({
+      fallbackLanguage: 'en',
+      loaderOptions: {
+        path: path.join(__dirname, 'i18n'),
+        watch: true,
+      },
+      resolvers: [new QueryResolver(['lang']), new HeaderResolver()],
+    }),
     NotificationsModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -71,7 +81,7 @@ import { UsersModule } from './user';
       }),
     }),
     AuthModule,
-    UsersModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

@@ -1,6 +1,6 @@
 import { All, Controller, Req, Res } from '@nestjs/common';
 
-import { AuthService } from './auth.service';
+import { AuthService } from './service';
 
 @Controller('auth')
 export class AuthController {
@@ -11,7 +11,7 @@ export class AuthController {
     return this.handle(request, reply);
   }
 
-  @All('{*path}')
+  @All('*')
   async handleAll(@Req() request: any, @Res() reply: any) {
     return this.handle(request, reply);
   }

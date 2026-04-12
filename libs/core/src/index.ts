@@ -5,3 +5,4 @@ export * from './http';
 export * from './pipes';
 export * from './decorators';
 export * from './interceptors';
+export * from './logging';

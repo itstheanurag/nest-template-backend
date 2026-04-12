@@ -12,6 +12,10 @@ import helmet from '@fastify/helmet';
 import * as fs from 'fs';
 import * as path from 'path';
 import {
+  Logger as NestjsPinoLogger,
+  LoggerErrorInterceptor,
+} from 'nestjs-pino';
+import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
@@ -33,9 +37,12 @@ export class ServerClass {
       module,
       new FastifyAdapter(),
       {
-        logger: ['log', 'error', 'warn', 'debug', 'verbose'],
+        bufferLogs: true,
       },
     );
+
+    app.useLogger(app.get(NestjsPinoLogger));
+    app.useGlobalInterceptors(new LoggerErrorInterceptor());
 
     const config = app.get(ConfigService);
 
@@ -44,13 +51,13 @@ export class ServerClass {
     this.setupCors(app, config);
     await app.register(helmet);
     this.setupValidation(app);
-    this.setupRequestLogging(app, options);
 
     const port =
       options?.port ||
       config.get<number>('app.port') ||
       config.get<number>('APP_PORT') ||
       config.get<number>('PORT', 3000);
+
     await app.listen(port, '0.0.0.0');
     this.appLogger.log(`Server is running on: ${await app.getUrl()}`);
 
@@ -157,33 +164,5 @@ export class ServerClass {
 
   private static setupValidation(app: NestFastifyApplication) {
     app.useGlobalPipes(new ValidationPipe());
-  }
-
-  private static setupRequestLogging(
-    app: NestFastifyApplication,
-    options?: ServerOptions,
-  ) {
-    if (!options?.enableServerLogs) return;
-
-    app
-      .getHttpAdapter()
-      .getInstance()
-      .addHook('onResponse', (req, res, done) => {
-        const { method, url } = req;
-        const duration = Date.now() - (req as any).startTime;
-        this.appLogger.log(
-          `${method} ${url} ${res.statusCode} - ${duration}ms`,
-        );
-        done();
-      });
-
-    // Track start time for duration calculation
-    app
-      .getHttpAdapter()
-      .getInstance()
-      .addHook('onRequest', (req, _res, done) => {
-        (req as any).startTime = Date.now();
-        done();
-      });
   }
 }
